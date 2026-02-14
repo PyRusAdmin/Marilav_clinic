@@ -10,10 +10,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import (
-    Message,
-    CallbackQuery,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton
+    Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 )
 
 from config import BOT_TOKEN, ADMIN_ID, CHANNEL_ID, MAX_QUESTION_LENGTH
