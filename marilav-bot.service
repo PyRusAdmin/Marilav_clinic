@@ -1,0 +1,21 @@
+[Unit]
+Description=Telegram Bot for Anonymous Questions (МариЛав)
+After=network.target
+
+[Service]
+Type=simple
+User=your_username
+WorkingDirectory=/path/to/telegram_bot
+ExecStart=/path/to/telegram_bot/venv/bin/python /path/to/telegram_bot/bot.py
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=append:/path/to/telegram_bot/bot.log
+StandardError=append:/path/to/telegram_bot/bot.log
+
+# Environment
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target
