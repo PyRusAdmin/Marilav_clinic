@@ -2,7 +2,7 @@
 Основной файл Telegram-бота для анонимных вопросов
 """
 import asyncio
-import logging
+from loguru import logger
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
@@ -18,15 +18,7 @@ from models import Question, init_db, close_db
 from utils import escape_markdown, generate_question_id, validate_question_text
 
 # Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('bot.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+logger.add("bot.log", encoding="utf-8", rotation="500 MB", level="INFO")
 
 # Инициализация бота и диспетчера
 bot = Bot(token=BOT_TOKEN)

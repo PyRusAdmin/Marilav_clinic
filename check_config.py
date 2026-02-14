@@ -39,10 +39,10 @@ def check_env_file():
 def check_env_variables():
     """Проверка переменных окружения"""
     load_dotenv()
-    
+
     errors = []
     warnings = []
-    
+
     # Проверка BOT_TOKEN
     bot_token = os.getenv('BOT_TOKEN')
     if not bot_token:
@@ -53,7 +53,7 @@ def check_env_variables():
         warnings.append("BOT_TOKEN выглядит подозрительно коротким")
     else:
         print_success(f"BOT_TOKEN установлен (длина: {len(bot_token)} символов)")
-    
+
     # Проверка ADMIN_ID
     admin_id = os.getenv('ADMIN_ID')
     if not admin_id:
@@ -64,7 +64,7 @@ def check_env_variables():
         errors.append("ADMIN_ID не изменен (используется значение по умолчанию)")
     else:
         print_success(f"ADMIN_ID установлен: {admin_id}")
-    
+
     # Проверка CHANNEL_ID
     channel_id = os.getenv('CHANNEL_ID')
     if not channel_id:
@@ -75,7 +75,7 @@ def check_env_variables():
         warnings.append("CHANNEL_ID должен начинаться с @ (для публичных) или -100 (для приватных каналов)")
     else:
         print_success(f"CHANNEL_ID установлен: {channel_id}")
-    
+
     return errors, warnings
 
 
@@ -86,9 +86,9 @@ def check_dependencies():
         'peewee': '3.0',
         'dotenv': '0.1'
     }
-    
+
     missing = []
-    
+
     for package, min_version in required_packages.items():
         try:
             if package == 'dotenv':
@@ -101,7 +101,7 @@ def check_dependencies():
         except ImportError:
             missing.append(package)
             print_error(f"{package} не установлен")
-    
+
     return missing
 
 
@@ -109,14 +109,14 @@ def check_files():
     """Проверка наличия необходимых файлов"""
     required_files = ['bot.py', 'models.py', 'config.py', 'utils.py']
     missing = []
-    
+
     for file in required_files:
         if os.path.exists(file):
             print_success(f"Файл {file} найден")
         else:
             missing.append(file)
             print_error(f"Файл {file} не найден")
-    
+
     return missing
 
 
@@ -126,23 +126,23 @@ def main():
     print("🔍 Проверка конфигурации Telegram-бота")
     print("=" * 60)
     print()
-    
+
     all_ok = True
-    
+
     # Проверка файлов
     print("📁 Проверка файлов проекта...")
     missing_files = check_files()
     if missing_files:
         all_ok = False
     print()
-    
+
     # Проверка .env файла
     print("⚙️  Проверка конфигурации...")
     if not check_env_file():
         all_ok = False
         print()
         sys.exit(1)
-    
+
     # Проверка переменных окружения
     errors, warnings = check_env_variables()
     if errors:
@@ -151,15 +151,15 @@ def main():
         print("Найдены ошибки в конфигурации:")
         for error in errors:
             print_error(error)
-    
+
     if warnings:
         print()
         print("Предупреждения:")
         for warning in warnings:
             print_warning(warning)
-    
+
     print()
-    
+
     # Проверка зависимостей
     print("📦 Проверка зависимостей...")
     missing_deps = check_dependencies()
@@ -168,10 +168,10 @@ def main():
         print()
         print_error("Установите недостающие зависимости:")
         print("   pip install -r requirements.txt")
-    
+
     print()
     print("=" * 60)
-    
+
     if all_ok and not errors:
         print_success("Все проверки пройдены! Бот готов к запуску.")
         print()
@@ -180,7 +180,7 @@ def main():
     else:
         print_error("Обнаружены проблемы. Исправьте их перед запуском.")
         sys.exit(1)
-    
+
     print("=" * 60)
 
 
