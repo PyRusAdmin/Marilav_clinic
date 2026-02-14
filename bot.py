@@ -108,14 +108,22 @@ async def handle_attachments(message: Message):
 
 # ============== ОБРАБОТЧИКИ ДЛЯ АДМИНИСТРАТОРА ==============
 
+'''
+🔴 danger — красная кнопка (идеально для «Удалить», «Отмена», «Бан»).
+🟢 success — зелёная кнопка («Подтвердить», «Оплатить», «Принять»).
+🔵 primary — синяя кнопка (для основных целевых действий).
+⚪️ Стандартный — привычный прозрачно-серый цвет.
+'''
+
+
 async def send_question_to_admin(question_id: str, question_text: str):
     """Отправка вопроса администратору с кнопками модерации"""
 
     # Создание inline-кнопок
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="✅ Принять", callback_data=f"approve_{question_id}"),
-            InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{question_id}")
+            InlineKeyboardButton(text="✅ Принять", callback_data=f"approve_{question_id}", style='success'),
+            InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{question_id}", style='danger')
         ]
     ])
 
