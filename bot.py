@@ -53,7 +53,7 @@ async def cmd_start(message: Message):
     )
 
     try:
-        await message.answer(welcome_text, parse_mode="MarkdownV2")
+        await message.answer(welcome_text, parse_mode="HTML")
         logger.info(f"Пользователь {message.from_user.id} запустил бота")
     except Exception as e:
         logger.error(f"Ошибка при отправке приветствия: {e}")
@@ -92,7 +92,7 @@ async def handle_question(message: Message):
             "Ответ будет опубликован в канале «МариЛав»: @marilove\\_channel\n\n"
             "Спасибо\\!"
         )
-        await message.answer(confirmation_text, parse_mode="MarkdownV2")
+        await message.answer(confirmation_text, parse_mode="HTML")
 
         # Уведомление администратору
         await send_question_to_admin(question_id, question_text)
@@ -141,7 +141,7 @@ async def send_question_to_admin(question_id: str, question_text: str):
             chat_id=ADMIN_ID,
             text=admin_message,
             reply_markup=keyboard,
-            parse_mode="MarkdownV2"
+            parse_mode="HTML"
         )
         logger.info(f"Вопрос {question_id} отправлен администратору")
     except Exception as e:
@@ -167,7 +167,7 @@ async def callback_approve(callback: CallbackQuery, state: FSMContext):
         await callback.message.answer(
             f"✅ Вопрос принят\\!\n\n"
             f"Теперь отправьте видеосообщение \\(кружочек\\) с ответом\\.",
-            parse_mode="MarkdownV2"
+            parse_mode="HTML"
         )
 
         await callback.answer("Вопрос принят")
@@ -230,7 +230,7 @@ async def handle_admin_video(message: Message, state: FSMContext):
         await publish_to_channel(question.text, video_file_id)
 
         # Уведомление администратору
-        await message.answer("✅ Вопрос опубликован в канале\\!", parse_mode="MarkdownV2")
+        await message.answer("✅ Вопрос опубликован в канале\\!", parse_mode="HTML")
 
         # Очистка состояния
         await state.clear()
