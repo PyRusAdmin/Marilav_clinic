@@ -66,7 +66,7 @@ def list_backups():
         mtime = datetime.fromtimestamp(os.path.getmtime(backup_path))
         logger.info(f"  {backup}")
         logger.info(f"    Размер: {size} байт")
-        print(f"    Дата: {mtime.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        logger.info(f"    Дата: {mtime.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
 
 if __name__ == '__main__':
