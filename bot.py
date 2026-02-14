@@ -122,8 +122,8 @@ async def send_question_to_admin(question_id: str, question_text: str):
     # Создание inline-кнопок
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="✅ Принять", callback_data=f"approve_{question_id}", style='success'),
-            InlineKeyboardButton(text="❌ Отклонить", callback_data=f"reject_{question_id}", style='danger')
+            InlineKeyboardButton(text="Принять", callback_data=f"approve_{question_id}", style='success', icon_custom_emoji_id='5427009714745517609'),
+            InlineKeyboardButton(text="Отклонить", callback_data=f"reject_{question_id}", style='danger', icon_custom_emoji_id='5465665476971471368')
         ]
     ])
 
