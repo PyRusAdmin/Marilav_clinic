@@ -1,15 +1,11 @@
 """
 Модели базы данных для бота анонимных вопросов
 """
-from peewee import (
-    Model, 
-    CharField, 
-    TextField, 
-    DateTimeField,
-    SQL
-)
-from playhouse.sqlite_ext import SqliteDatabase
 import datetime
+
+from peewee import (
+    Model, CharField, TextField, DateTimeField, SqliteDatabase
+)
 
 # Инициализация базы данных
 db = SqliteDatabase('questions.db')

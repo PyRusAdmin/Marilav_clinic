@@ -50,8 +50,9 @@ nano .env
 ```
 
 Заполните параметры:
+
 - BOT_TOKEN
-- ADMIN_ID  
+- ADMIN_ID
 - CHANNEL_ID
 
 ### 4. Проверка конфигурации
@@ -77,6 +78,7 @@ nano marilav-bot.service
 ```
 
 Измените:
+
 - `your_username` на имя пользователя
 - `/path/to/telegram_bot` на реальный путь (например: `/opt/telegram_bot`)
 

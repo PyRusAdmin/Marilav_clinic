@@ -12,22 +12,22 @@ BACKUP_DIR = 'backups'
 
 def create_backup():
     """Создание резервной копии базы данных"""
-    
+
     # Создание директории для бэкапов, если её нет
     if not os.path.exists(BACKUP_DIR):
         os.makedirs(BACKUP_DIR)
         print(f"Создана директория для бэкапов: {BACKUP_DIR}")
-    
+
     # Проверка существования БД
     if not os.path.exists(DB_FILE):
         print(f"Ошибка: файл базы данных {DB_FILE} не найден")
         return False
-    
+
     # Формирование имени файла бэкапа с текущей датой и временем
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     backup_filename = f'questions_backup_{timestamp}.db'
     backup_path = os.path.join(BACKUP_DIR, backup_filename)
-    
+
     try:
         # Копирование файла базы данных
         shutil.copy2(DB_FILE, backup_path)
@@ -37,7 +37,7 @@ def create_backup():
         print(f"   Размер: {file_size} байт")
         print(f"   Время: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         return True
-        
+
     except Exception as e:
         print(f"❌ Ошибка при создании резервной копии: {e}")
         return False
@@ -45,19 +45,19 @@ def create_backup():
 
 def list_backups():
     """Показать список всех резервных копий"""
-    
+
     if not os.path.exists(BACKUP_DIR):
         print(f"Директория {BACKUP_DIR} не найдена")
         return
-    
+
     backups = [f for f in os.listdir(BACKUP_DIR) if f.endswith('.db')]
-    
+
     if not backups:
         print("Резервные копии не найдены")
         return
-    
+
     print(f"\nНайдено резервных копий: {len(backups)}\n")
-    
+
     for backup in sorted(backups, reverse=True):
         backup_path = os.path.join(BACKUP_DIR, backup)
         size = os.path.getsize(backup_path)
@@ -69,7 +69,7 @@ def list_backups():
 
 if __name__ == '__main__':
     import sys
-    
+
     if len(sys.argv) > 1 and sys.argv[1] == 'list':
         list_backups()
     else:

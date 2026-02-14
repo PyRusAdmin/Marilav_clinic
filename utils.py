@@ -1,7 +1,6 @@
 """
 Утилиты для бота
 """
-import re
 import uuid
 
 
@@ -30,8 +29,8 @@ def validate_question_text(text: str, max_length: int = 1000) -> tuple[bool, str
     """
     if not text or not text.strip():
         return False, "Вопрос не может быть пустым"
-    
+
     if len(text) > max_length:
         return False, f"Вопрос слишком длинный. Максимум {max_length} символов"
-    
+
     return True, ""
