@@ -10,15 +10,8 @@ load_dotenv()
 # Токен бота
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-# Получаем строку и превращаем в список int
-ADMIN_IDS = [
-    int(admin_id.strip())
-    for admin_id in os.getenv("ADMIN_IDS", "").split(",")
-    if admin_id.strip()
-]
-
 # ID администратора
-# ADMIN_IDS = int(os.getenv('ADMIN_ID', 0))
+ADMIN_ID = int(os.getenv('ADMIN_ID', 0))
 
 # ID канала для публикации
 CHANNEL_ID = os.getenv('CHANNEL_ID')
@@ -30,7 +23,7 @@ MAX_QUESTION_LENGTH = 1000
 if not BOT_TOKEN:
     raise ValueError("BOT_TOKEN не установлен в .env файле")
 
-if not ADMIN_IDS:
+if not ADMIN_ID:
     raise ValueError("ADMIN_ID не установлен в .env файле")
 
 if not CHANNEL_ID:

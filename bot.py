@@ -13,7 +13,7 @@ from aiogram.types import (
     Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 )
 
-from config import BOT_TOKEN, ADMIN_IDS, CHANNEL_ID, MAX_QUESTION_LENGTH
+from config import BOT_TOKEN, ADMIN_ID, CHANNEL_ID, MAX_QUESTION_LENGTH
 from models import Question, init_db, close_db
 from utils import escape_markdown, generate_question_id, validate_question_text
 
@@ -56,7 +56,7 @@ async def handle_question(message: Message):
     """Обработчик текстовых сообщений (вопросов) от пользователей"""
 
     # Игнорируем сообщения от администратора (если он не в режиме ожидания видео)
-    if message.from_user.id == ADMIN_IDS:
+    if message.from_user.id == ADMIN_ID:
         return
 
     question_text = message.text
@@ -80,11 +80,19 @@ async def handle_question(message: Message):
 
         # Подтверждение пользователю
         confirmation_text = (
-            "✅ Ваш вопрос отправлен\\!\n\n"
-            "Ответ будет опубликован в канале «МариЛав»: @marilove\\_channel\n\n"
-            "Спасибо\\!"
+            "Спасибо, ответ на ваш вопрос будет опубликован в канале «МариЛав».\n\n"
+            "На вопросы отвечают квалифицированные врачи-косметологи, массажисты "
+            "и главный врач клиники Мария Лаврентьева, и это может занять какое-то время.\n\n"
+            "А пока подписывайтесь 👉 "
+            "<a href=\"https://t.me/marilav_clinic\">@marilav_clinic</a>, "
+            "чтобы ничего не пропустить!"
         )
-        await message.answer(confirmation_text, parse_mode="HTML")
+
+        await message.answer(
+            confirmation_text,
+            parse_mode="HTML",
+            disable_web_page_preview=True
+        )
 
         # Уведомление администратору
         await send_question_to_admin(question_id, question_text)
@@ -99,7 +107,7 @@ async def handle_question(message: Message):
 @dp.message(F.content_type.in_({'photo', 'document', 'video', 'audio', 'voice', 'sticker'}))
 async def handle_attachments(message: Message):
     """Обработчик вложений - запрещаем их"""
-    if message.from_user.id != ADMIN_IDS:
+    if message.from_user.id != ADMIN_ID:
         await message.answer(
             "❌ Пожалуйста, отправьте только текстовый вопрос без вложений."
         )
@@ -138,7 +146,7 @@ async def send_question_to_admin(question_id: str, question_text: str):
 
     try:
         await bot.send_message(
-            chat_id=ADMIN_IDS,
+            chat_id=ADMIN_ID,
             text=admin_message,
             reply_markup=keyboard,
             parse_mode="HTML"
