@@ -13,7 +13,7 @@ from aiogram.types import (
     Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 )
 
-from config import BOT_TOKEN, ADMIN_ID, CHANNEL_ID, MAX_QUESTION_LENGTH
+from config import BOT_TOKEN, ADMIN_IDS, CHANNEL_ID, MAX_QUESTION_LENGTH
 from models import Question, init_db, close_db
 from utils import escape_markdown, generate_question_id, validate_question_text
 
@@ -37,15 +37,15 @@ class AdminStates(StatesGroup):
 async def cmd_start(message: Message):
     """Обработчик команды /start"""
     welcome_text = (
-        "<tg-emoji emoji-id=\"5253741212082381912\">👋</tg-emoji> Добро пожаловать!\n\n"
-        "Я бот для анонимных вопросов клиники «МариЛав».\n\n"
-        "Вы можете задать любой вопрос, и врачи клиники ответят на него в видеоформате. "
-        "Ваш вопрос будет полностью анонимным.\n\n"
-        "<tg-emoji emoji-id=\"5433914385774957462\">💬</tg-emoji> Просто напишите ваш вопрос в чат."
+        "Привет, это бот телеграм-канала «МариЛав».\n\n"
+        "Оставьте свой вопрос — а я передам его врачам-косметологам и специалистам массажа.\n\n"
+        "Наши врачи постараются вам помочь, дать подробные рекомендации и решить ваш запрос.\n\n"
+        "А пока подписывайтесь на канал 👉 "
+        "<a href=\"https://t.me/marilav_clinic\">@marilav_clinic</a>, "
+        "чтобы ничего не пропустить!"
     )
-
     try:
-        await message.answer(welcome_text, parse_mode="HTML")
+        await message.answer(welcome_text, parse_mode="HTML", disable_web_page_preview=True)
         logger.info(f"Пользователь {message.from_user.id} запустил бота")
     except Exception as e:
         logger.error(f"Ошибка при отправке приветствия: {e}")
@@ -56,7 +56,7 @@ async def handle_question(message: Message):
     """Обработчик текстовых сообщений (вопросов) от пользователей"""
 
     # Игнорируем сообщения от администратора (если он не в режиме ожидания видео)
-    if message.from_user.id == ADMIN_ID:
+    if message.from_user.id == ADMIN_IDS:
         return
 
     question_text = message.text
@@ -99,7 +99,7 @@ async def handle_question(message: Message):
 @dp.message(F.content_type.in_({'photo', 'document', 'video', 'audio', 'voice', 'sticker'}))
 async def handle_attachments(message: Message):
     """Обработчик вложений - запрещаем их"""
-    if message.from_user.id != ADMIN_ID:
+    if message.from_user.id != ADMIN_IDS:
         await message.answer(
             "❌ Пожалуйста, отправьте только текстовый вопрос без вложений."
         )
@@ -138,7 +138,7 @@ async def send_question_to_admin(question_id: str, question_text: str):
 
     try:
         await bot.send_message(
-            chat_id=ADMIN_ID,
+            chat_id=ADMIN_IDS,
             text=admin_message,
             reply_markup=keyboard,
             parse_mode="HTML"
