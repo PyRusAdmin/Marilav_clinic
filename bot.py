@@ -2,7 +2,6 @@
 Основной файл Telegram-бота для анонимных вопросов
 """
 import asyncio
-from loguru import logger
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart
@@ -12,10 +11,11 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import (
     Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 )
+from loguru import logger
 
 from config import BOT_TOKEN, ADMIN_ID, CHANNEL_ID, MAX_QUESTION_LENGTH
 from models import Question, init_db, close_db
-from utils import escape_markdown, generate_question_id, validate_question_text
+from utils import generate_question_id, validate_question_text
 
 # Настройка логирования
 logger.add("bot.log", encoding="utf-8", rotation="500 MB", level="INFO")
